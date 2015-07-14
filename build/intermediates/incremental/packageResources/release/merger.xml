@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\res"/><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\build\generated\res\rs\release"/><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\build\generated\res\generated\release"/></dataSet><dataSet config="release"><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\build-types\release\res"/></dataSet><mergedItems/></merger>
