@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="debug"><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\build\intermediates\bundles\debug\res"/></dataSet><dataSet config="main"><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\src\androidTest\res"/><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\build\generated\res\rs\androidTest\debug"/><source path="W:\Android-Studio\KanjiUnlock\Zinniandroid\build\generated\res\generated\androidTest\debug"/></dataSet><mergedItems/></merger>
