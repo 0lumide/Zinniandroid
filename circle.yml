@@ -1,4 +1,4 @@
 machine:
 
   environment:
-    ANDROID_NDK_HOME=${ANDROID_NDK}
+    ANDROID_NDK_HOME:${ANDROID_NDK}
