@@ -21,6 +21,11 @@ public class Zinnia {
 		System.loadLibrary("zinniajni");
 	}
 
+    /**
+     * This method creates a zinnia character @see #zinnia_character_add(long, long, int, int)
+     * @return the character object
+     * see the <a href="https://rawgit.com/taku910/zinnia/master/zinnia/doc/index.html">c++ documentation</a> for more details
+     */
 	public native long  zinnia_character_new();
 	public static native void        zinnia_character_destroy(long character);
 	public native void        zinnia_character_set_value(long character, String str);
@@ -31,6 +36,15 @@ public class Zinnia {
 	public native long      zinnia_character_width(long character);
 	public native long      zinnia_character_height(long character);
 	public native void        zinnia_character_clear(long stroke);
+
+    /**
+     * @param character the character object
+     * @param id this is the stroke number
+     * @param x the x coordinate of the point being added to the stroke
+     * @param y the y coordinate of the point being added to the stroke
+     * @return idk
+     * see the <a href="https://rawgit.com/taku910/zinnia/master/zinnia/doc/index.html">c++ documentation</a> for more details
+     */
 	public native int         zinnia_character_add(long character, long id, int x, int y);
 	public native long      zinnia_character_strokes_size(long character);
 	public native long      zinnia_character_stroke_size(long character, long id);
@@ -47,12 +61,18 @@ public class Zinnia {
 	public native long      zinnia_result_size(long result);
 	public native void        zinnia_result_destroy(long result);
 
+    /**
+     * @param modelName the name of the model file as it appears in /assets
+     * @return the recognizer object. All zinnia objects are represented as long in java
+     * @throws ModelDoesNotExistException
+     * see the <a href="https://rawgit.com/taku910/zinnia/master/zinnia/doc/index.html">c++ documentation</a> for more details
+     */
 	public long zinnia_recognizer_new(String modelName) throws ModelDoesNotExistException{
         String state = Environment.getExternalStorageState();
         String modelPath;
         //If the model file can be read from storage
         Log.d("Mount state", state);
-        if(state.equals(Environment.MEDIA_MOUNTED) || state.equals(Environment.MEDIA_MOUNTED_READ_ONLY)){
+        if(state.equals(Environment.MEDIA_MOUNTED)){
             File zinniaDir = new File(Environment.getExternalStorageDirectory(), "zinnia" + File.separatorChar);
             if(!zinniaDir.exists())
                 zinniaDir.mkdir();
@@ -76,8 +96,8 @@ public class Zinnia {
         return recognizer;
 	}
 
-    /**
-     modified from: http://stackoverflow.com/a/4530294/2057884
+    /*
+     * modified from: http://stackoverflow.com/a/4530294/2057884
      */
     private String readFromAsset(String assetName, File destinationDir){
         AssetManager assetManager = context.getAssets();
@@ -114,9 +134,10 @@ public class Zinnia {
         else
             return null;
     }
-    /**
-        author: Rohith Nandakumar
-        source: http://stackoverflow.com/a/4530294/2057884
+
+    /*
+     * author: Rohith Nandakumar
+     * source: http://stackoverflow.com/a/4530294/2057884
      */
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
