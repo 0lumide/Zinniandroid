@@ -1,3 +1,4 @@
+[![Circle CI](https://circleci.com/gh/0lumide/Zinniandroid.svg?style=svg)](https://circleci.com/gh/0lumide/Zinniandroid)
 #Zinniadroid
 This fork is the gradle version of the fork by @wkpark which this was forked from, with a few changes
 
