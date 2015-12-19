@@ -1,76 +1,27 @@
-import org.apache.tools.ant.taskdefs.condition.Os
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// Running 'gradle wrapper' will generate gradlew - Getting gradle wrapper working and using it will save you a lot of pain.
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
+
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
-    }
-}
-apply plugin: 'com.android.library'
-
-dependencies {
-    compile fileTree(include: '*.jar', dir: 'libs')
-    compile fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
-}
-tasks.withType(JavaCompile) {
-    compileTask -> compileTask.dependsOn ndkLibsToJar
-}
-
-task ndkLibsToJar(type: Zip, dependsOn: 'ndkBuild', description: 'Create a JAR of the native libs') {
-    destinationDir new File(buildDir, 'libs')
-    baseName 'ndk-libs'
-    extension 'jar'
-    from(new File(buildDir, 'libs')) { include '**/*.so' }
-    into 'lib/'
-}
-
-task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
-    def ndkDir = plugins.getPlugin('com.android.library').sdkHandler.getNdkFolder()
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        commandLine "$ndkDir/ndk-build.cmd",
-                'NDK_PROJECT_PATH=build',
-                'APP_BUILD_SCRIPT=jni/Android.mk', 'NDK_APPLICATION_MK=jni/Application.mk'
-    } else {
-        commandLine "$ndkDir/ndk-build",
-                'NDK_PROJECT_PATH=build',
-                'APP_BUILD_SCRIPT=jni/Android.mk', 'NDK_APPLICATION_MK=jni/Application.mk'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-android {
-    compileSdkVersion 19
-    buildToolsVersion "22.0.1"
-
-
-    defaultConfig {
-        ndk {
-            moduleName "Zinniandroid"
-            stl "stlport_shared"
-        }
-    }
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-            sourceSets.main.jni.srcDirs = []
-        }
-
-        // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
-
-        // Move the build types to build-types/<type>
-        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
-        // This moves them out of them default location under src/<type>/... which would
-        // conflict with src/ being used by the main source set.
-        // Adding new build types or product flavors should be accompanied
-        // by a similar customization.
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
     }
 }
