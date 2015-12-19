@@ -1,5 +1,12 @@
 import org.apache.tools.ant.taskdefs.condition.Os
-
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+    }
+}
 apply plugin: 'com.android.library'
 
 ext {
@@ -15,7 +22,7 @@ ext {
     siteUrl = 'https://github.com/0lumide/Zinniandroid'
     gitUrl = 'https://github.com/0lumide/Zinniandroid.git'
 
-    libraryVersion = '0.0.2'
+    libraryVersion = '0.0.3'
 
     developerId = '0lumide'
     developerName = 'Olumide Awofeso'
@@ -33,8 +40,8 @@ android {
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.3"
         ndk {
             moduleName "zinniandroid"
             stl "stlport_shared"
@@ -42,7 +49,7 @@ android {
     }
     sourceSets {
         main {
-            assets.srcDirs = ['assets']
+            manifest.srcFile 'AndroidManifest.xml'
             sourceSets.main.jni.srcDirs = []
         }
 
@@ -94,7 +101,7 @@ task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
 }
 
 apply from: 'android-maven.gradle'
