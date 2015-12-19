@@ -56,8 +56,8 @@ public class DrawCanvas extends View {
         super.onMeasure(measuredWidth, measuredHeight);
         int dimension;
         Log.e("onMeasure"+count++, String.format("Width: %s: %d: %d\tHeight: %s: %d: %d",
-                MeasureSpec.toString(MeasureSpec.getMode(measuredWidth)), getMeasuredWidth(), getWidth(),
-                MeasureSpec.toString(MeasureSpec.getMode(measuredHeight)), getMeasuredHeight(), getHeight())
+                        MeasureSpec.toString(MeasureSpec.getMode(measuredWidth)), getMeasuredWidth(), getWidth(),
+                        MeasureSpec.toString(MeasureSpec.getMode(measuredHeight)), getMeasuredHeight(), getHeight())
         );
         if ((getWidth() == 0) && (getHeight() == 0)){
             dimension = MeasureSpec.makeMeasureSpec(Math.min(getMeasuredWidth(), getMeasuredHeight()), MeasureSpec.EXACTLY);

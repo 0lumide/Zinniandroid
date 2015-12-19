@@ -1,0 +1,101 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'zinniandroid'
+
+    publishedGroupId = 'co.mide.zinniandroid'
+    libraryName = 'Zinnia-Android'
+    artifact = 'zinniandroid'
+
+    libraryDescription = 'An android wrapper aound the zinnia handwriting recognition library'
+
+    siteUrl = 'https://github.com/0lumide/Zinniandroid'
+    gitUrl = 'https://github.com/0lumide/Zinniandroid.git'
+
+    libraryVersion = '0.0.1'
+
+    developerId = '0lumide'
+    developerName = 'Olumide Awofeso'
+    developerEmail = 'olumideawofeso@gmail.com'
+
+    licenseName = 'MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            moduleName "zinniandroid"
+            stl "stlport_shared"
+        }
+    }
+    sourceSets {
+        main {
+            assets.srcDirs = ['assets']
+            sourceSets.main.jni.srcDirs = []
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn ndkLibsToJar
+}
+
+task ndkLibsToJar(type: Zip, dependsOn: 'ndkBuild', description: 'Create a JAR of the native libs') {
+    destinationDir new File(buildDir, 'libs')
+    baseName 'ndk-libs'
+    extension 'jar'
+    from(new File(buildDir, 'libs')) { include '**/*.so' }
+    into 'lib/'
+}
+
+task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+    def ndkDir = plugins.getPlugin('com.android.library').sdkHandler.getNdkFolder()
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine "$ndkDir/ndk-build.cmd",
+                'NDK_PROJECT_PATH=build',
+                'APP_BUILD_SCRIPT=jni/Android.mk', 'NDK_APPLICATION_MK=jni/Application.mk'
+    } else {
+        commandLine "$ndkDir/ndk-build",
+                'NDK_PROJECT_PATH=build',
+                'APP_BUILD_SCRIPT=jni/Android.mk', 'NDK_APPLICATION_MK=jni/Application.mk'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+}
+
+apply from: 'android-maven.gradle'
+apply from: 'bintray.gradle'
