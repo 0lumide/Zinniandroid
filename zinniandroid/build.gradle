@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/0lumide/Zinniandroid'
     gitUrl = 'https://github.com/0lumide/Zinniandroid.git'
 
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.2'
 
     developerId = '0lumide'
     developerName = 'Olumide Awofeso'
@@ -27,12 +27,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 7
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         ndk {
@@ -94,7 +94,7 @@ task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:22.2.0'
 }
 
 apply from: 'android-maven.gradle'
