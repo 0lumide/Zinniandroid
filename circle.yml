@@ -3,6 +3,6 @@ machine:
     ANDROID_NDK_HOME: $ANDROID_NDK
 checkout:
   post:
-    echo "bintray.user=$BINTRAY_USERNAME" > local.properties
-    echo "bintray.apikey=$BINTRAY_APIKEY" >> local.properties
-    echo "bintray.gpg.password=$BINTRAY_GPG_PASSWORD" >> local.properties
+    - echo "bintray.user=$BINTRAY_USERNAME" > local.properties
+    - echo "bintray.apikey=$BINTRAY_APIKEY" >> local.properties
+    - echo "bintray.gpg.password=$BINTRAY_GPG_PASSWORD" >> local.properties
